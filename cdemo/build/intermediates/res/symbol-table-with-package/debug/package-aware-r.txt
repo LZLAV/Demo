@@ -1,0 +1,2 @@
+com.lzlbuilder.cdemo
+string app_name

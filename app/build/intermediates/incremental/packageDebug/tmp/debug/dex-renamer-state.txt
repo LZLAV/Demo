@@ -1,0 +1,4 @@
+#Tue Jan 05 18:21:18 CST 2021
+base.0=E\:\\vanrui\\new_vanrui\\code\\Demo\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
