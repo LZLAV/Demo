@@ -21,23 +21,22 @@
 15-->E:\vanrui\new_vanrui\code\Demo\app\src\main\AndroidManifest.xml:8:9-41
 16        android:roundIcon="@mipmap/ic_launcher_round"
 16-->E:\vanrui\new_vanrui\code\Demo\app\src\main\AndroidManifest.xml:9:9-54
-17        android:supportsRtl="true"
+17        android:supportsRtl="true" >
 17-->E:\vanrui\new_vanrui\code\Demo\app\src\main\AndroidManifest.xml:10:9-35
-18        android:testOnly="true" >
-19        <activity android:name="com.lzlbuilder.demo.MainActivity" >
-19-->E:\vanrui\new_vanrui\code\Demo\app\src\main\AndroidManifest.xml:11:9-17:20
-19-->E:\vanrui\new_vanrui\code\Demo\app\src\main\AndroidManifest.xml:11:19-47
-20            <intent-filter>
-20-->E:\vanrui\new_vanrui\code\Demo\app\src\main\AndroidManifest.xml:12:13-16:29
-21                <action android:name="android.intent.action.MAIN" />
-21-->E:\vanrui\new_vanrui\code\Demo\app\src\main\AndroidManifest.xml:13:17-69
-21-->E:\vanrui\new_vanrui\code\Demo\app\src\main\AndroidManifest.xml:13:25-66
-22
-23                <category android:name="android.intent.category.LAUNCHER" />
-23-->E:\vanrui\new_vanrui\code\Demo\app\src\main\AndroidManifest.xml:15:17-77
-23-->E:\vanrui\new_vanrui\code\Demo\app\src\main\AndroidManifest.xml:15:27-74
-24            </intent-filter>
-25        </activity>
-26    </application>
-27
-28</manifest>
+18        <activity android:name="com.lzlbuilder.demo.MainActivity" >
+18-->E:\vanrui\new_vanrui\code\Demo\app\src\main\AndroidManifest.xml:11:9-17:20
+18-->E:\vanrui\new_vanrui\code\Demo\app\src\main\AndroidManifest.xml:11:19-47
+19            <intent-filter>
+19-->E:\vanrui\new_vanrui\code\Demo\app\src\main\AndroidManifest.xml:12:13-16:29
+20                <action android:name="android.intent.action.MAIN" />
+20-->E:\vanrui\new_vanrui\code\Demo\app\src\main\AndroidManifest.xml:13:17-69
+20-->E:\vanrui\new_vanrui\code\Demo\app\src\main\AndroidManifest.xml:13:25-66
+21
+22                <category android:name="android.intent.category.LAUNCHER" />
+22-->E:\vanrui\new_vanrui\code\Demo\app\src\main\AndroidManifest.xml:15:17-77
+22-->E:\vanrui\new_vanrui\code\Demo\app\src\main\AndroidManifest.xml:15:27-74
+23            </intent-filter>
+24        </activity>
+25    </application>
+26
+27</manifest>

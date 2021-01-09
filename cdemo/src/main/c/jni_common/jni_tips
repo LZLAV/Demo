@@ -1,0 +1,59 @@
+JNI Tips
+
+    JNIEnv
+        C语言声明的JavaVM和JNIEnv与C++声明的不同, "jni.h"头文件里使用宏定义把C和C++的声明作了区别. 基于这原因, 把JNIEnv作为参数放在头文件里是不好的方式, 这导致在C和C++都用这个头文件时会有很大的麻烦
+
+
+    线程
+        使用C语言的pthread_create也可以创建线程，但在使用JNI方法AttachCurrentThread或AttachCurrentThreadAsDaemon来关联之前， 这个线程是没有JNIEnv的。同时也不能调用JNI的接口。
+        Android不能暂停线程去执行native的代码，如果一个GC在运行或者调试器触发了一个暂停请求，Android将会暂停在下一个JNI的调用，而不是当前的native代码。
+
+    类属性
+        属性的ID和方法的ID能保证在类卸载前一直有效。jclass作为类引用必须使用NewGlobalRef来保护。
+        加载一个类时把那些ID保存起来, 并且在类卸载和重新加载时重新保存他们。
+        private static native void nativeInit();
+        static {
+            nativeInit();
+        }
+
+
+    引用
+        引用到同一个对象却有多个值是可能的。例如，连续使用NewGlobalRef来引用同一个对象的返回值可能是不一样的。要比较2个引用是不是指向同一个对象，必须使用IsSameObject方法来判断,永远不要在原生代码中用==来判断两个引用是否一样。
+        不能假设原生代码中对象的引用是常量或者唯一的。不能用jobject的值来作为对象的key。
+        jfieldID和jmethodID是不透明的类型，而不是对象引用，所以不能用NewGlobalRef方法来调用。由某些方法例如GetStringUTFChars和GetByteArrayElements返回的原始数据指针也不是对象.(这些类型可以在线程间传递，并且在相应的对象释放前一直有效.)
+        如果你使用AttachCurrentThread关联一个线程，线程中代码生成的临时引用要到线程取消关联后才会自动释放.所以你需要手动释放你创建的临时引用
+
+
+    UTF-8 与 UTF-16字符串       ？？？？
+        传给NewStringUTF的参数必须是Mod UTF-8格式的字符串， 一个容易犯的错误是把从文件或网络流中读到字符串传给NewStringUTF而没有过滤他，除非你知道这个数据是7位ASCII，你需要去掉高位ASCII字符或者转换他们为正确的Mod UTF-8格式.如果你没有这样做，默认UTF-16的转换应该不是你所期望的.扩展的JNI检查会扫描字符串和警告是无效数据,但他们不会捕获所有的异常。
+        GetStringUTFChars要求一次分配内存和转换成UTF-8字符串。
+
+
+    异常
+        在异常等待处理时只可以调用的 JNI 方法
+            DeleteGlobalRef
+            DeleteLocalRef
+            DeleteWeakGlobalRef
+            ExceptionCheck
+            ExceptionClear
+            ExceptionDescribe
+            ExceptionOccurred
+            MonitorExit
+            PopLocalFrame
+            PushLocalFrame
+            Release<PrimitiveType>ArrayElements
+            ReleasePrimitiveArrayCritical
+            ReleaseStringChars
+            ReleaseStringCritical
+            ReleaseStringUTFChars
+            很多JNI方法会跑出异常, 但通常会提供一个简单的方法来检查失败. 例如,如果 NewString 返回一个非空值, 你不需要去检查异常. 然而,如果你调用一个方法(比如 CallObjectMethod), 你必须检查异常, 因为返回值在异常发生时是不正确的.
+            JNI的 Throw 和 ThrowNew 只是在当前线程设置一个异常指针. 直到从原生代码返回到java代码, 异常才会被抛出或者正确的处理.
+
+        开启JNI 检查
+            1. 模拟器, CheckJNI默认是开启的
+            2. 如果你root了一个设备, 你可以用下列命令来重起runtime开启CheckJNI:
+                adb shell stop
+                adb shell setprop dalvik.vm.checkjni true
+                adb shell start
+            3. 没root的设备, 你可以用下列命令:
+                adb shell setprop debug.checkjni 1

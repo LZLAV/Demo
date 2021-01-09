@@ -15,13 +15,15 @@ add_library( # Specifies the name of the library.
         SHARED
 
         # Provides a relative path to your source file(s).
-        c/native_lib.cpp)
+        c/native_lib.cpp
+        c/jni_common/jni_wrapper.cpp
+        )
 # 生成可执行文件
 # add_executable()
 
 
 # 指定头文件链接路径
-#include_directories(src/main/cpp/include/)
+include_directories(c/jni_common)
 
 
 #find_library 命令以找到 NDK 库并将其路径存储为一个变量。您可以使用此变量在构建脚本的其他部分引用 NDK 库。
@@ -43,21 +45,10 @@ target_link_libraries( # Specifies the target library.
         ${log-lib})
 #
 
-
-# 由于库已构建，因此您需要使用 IMPORTED 标志指示 CMake 您只想要将此库导入到您的项目中
-#add_library( imported-lib
-#             SHARED
-#             IMPORTED )
-#
-#set_target_properties( # Specifies the target library.
-#                       imported-lib
-#
-#                       # Specifies the parameter you want to define.
-#                       PROPERTIES IMPORTED_LOCATION
-#
-#                       # Provides the path to the library you want to import.
-#                       imported-lib/src/${ANDROID_ABI}/libimported-lib.so )
-
+# 引入第三方库，IMPORTED 标志指示 CMake 想要将此库导入到项目中
+#add_library(curl STATIC IMPORTED)
+#set_target_properties(curl PROPERTIES IMPORTED_LOCATION
+#        ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libcurl.a)
 
 # 设置变量
 #set( lib_src_DIR ../gmath )
